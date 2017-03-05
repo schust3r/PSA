@@ -59,5 +59,20 @@ public class ImageHandler {
 		}
 	}
 	
+	/**
+	 * Sobreescribe una imagen en la ruta especificada
+	 * 
+	 * @param ruta			ruta donde almacenar imagen en disco
+	 * @param nombreImagen	nombre para asignar a imagen guardada
+	 * @param imagen		matriz de OpenCV con datos de imagen
+	 */
+	public void sobreescribirImagen(String ruta, String nombreImagen, Mat imagen) {
+		try {
+			Imgcodecs.imwrite(ruta + "/" + nombreImagen, imagen);			
+		}
+		catch (Exception e) {
+			e.printStackTrace();		
+		}
+	}
 	
 }

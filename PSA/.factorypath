@@ -54,4 +54,7 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/org/springframework/spring-test/4.3.7.RELEASE/spring-test-4.3.7.RELEASE.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/springframework/boot/spring-boot-configuration-processor/1.5.2.RELEASE/spring-boot-configuration-processor-1.5.2.RELEASE.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\opencv\build\java\opencv-320.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="JUNIT_HOME/junit.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="EXTJAR" id="C:\Program Files\Eclipse Neon 2 for Java\plugins\org.hamcrest.core_1.3.0.v201303031735.jar" enabled="true" runInBatchMode="false"/>
 </factorypath>

@@ -9,5 +9,6 @@ package segmentacion.conf;
 public class Const {
 	
 	public static int LIMITE = 256;
+	public static String IMG_DIR = "../PSA/upload-dir/";
 
 }

@@ -28,11 +28,11 @@ public class FileSystemStorageService implements StorageService {
     public void store(MultipartFile file) {
         try {
             if (file.isEmpty()) {
-                throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
+                throw new StorageException("Error al guardar el archivo vacío " + file.getOriginalFilename());
             }
             Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
         } catch (IOException e) {
-            throw new StorageException("Failed to store file " + file.getOriginalFilename(), e);
+            throw new StorageException("Error al guardar el archivo " + file.getOriginalFilename(), e);
         }
     }
 
@@ -43,7 +43,7 @@ public class FileSystemStorageService implements StorageService {
                     .filter(path -> !path.equals(this.rootLocation))
                     .map(path -> this.rootLocation.relativize(path));
         } catch (IOException e) {
-            throw new StorageException("Failed to read stored files", e);
+            throw new StorageException("Error al leer archivos guardados", e);
         }
 
     }
@@ -62,11 +62,11 @@ public class FileSystemStorageService implements StorageService {
                 return resource;
             }
             else {
-                throw new StorageFileNotFoundException("Could not read file: " + filename);
+                throw new StorageFileNotFoundException("No se pudo leer el archivo: " + filename);
 
             }
         } catch (MalformedURLException e) {
-            throw new StorageFileNotFoundException("Could not read file: " + filename, e);
+            throw new StorageFileNotFoundException("No se pudo leer el archivo: " + filename, e);
         }
     }
 
@@ -80,7 +80,7 @@ public class FileSystemStorageService implements StorageService {
         try {
             Files.createDirectory(rootLocation);
         } catch (IOException e) {
-            throw new StorageException("Could not initialize storage", e);
+            throw new StorageException("No se pudo inicializar el almacenamiento", e);
         }
     }
 }

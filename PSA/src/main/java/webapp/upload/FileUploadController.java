@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import segmentacion.imagenes.ImageProcessor;
 import webapp.upload.storage.StorageFileNotFoundException;
 import webapp.upload.storage.StorageService;
 
@@ -57,8 +58,13 @@ public class FileUploadController {
                                    RedirectAttributes redirectAttributes) {
 
         storageService.store(file);
+        
+        // Procesa la imagen instantaneamente (temporal)
+        ImageProcessor imgProc = new ImageProcessor();
+        imgProc.procesarImagen(file.getOriginalFilename());
+        
         redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
+                "Archivo \"" + file.getOriginalFilename() + "\" subido con éxito");
 
         return "redirect:/";
     }

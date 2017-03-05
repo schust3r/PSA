@@ -1,26 +1,41 @@
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+  <title>Subir imágenes</title>
+
+  <link rel="stylesheet" type="text/css" href="css/upload.css"></link>
+  
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></link>
+
+</head>
+
 <body>
-
-	<div th:if="${message}">
+	<div class="container">
 		<h2 th:text="${message}"/>
-	</div>
+	      <div class="panel panel-default">
+	        <div class="panel-heading"><strong>Subir imágenes</strong></div>
+	        <div class="panel-body">
 
-	<div>
-		<form method="POST" enctype="multipart/form-data" action="/">
-			<table>
-				<tr><td>File to upload:</td><td><input type="file" name="file" /></td></tr>
-				<tr><td></td><td><input type="submit" value="Upload" /></td></tr>
-			</table>
-		</form>
-	</div>
+	          <!-- Standar Form -->
+	          <h4>Seleccione un archivo de su ordenador</h4>
+	          <form method="post" enctype="multipart/form-data" id="js-upload-form" action="/">
+	            <div class="form-inline">
+	              <div class="form-group">
+	                <input type="file" name="file" id="js-upload-files"></input>
+	              </div>
+	              <button type="submit" value="Upload" class="btn btn-sm btn-primary" id="js-upload-submit">Subir imagen</button>
+	            </div>
+	          </form>
 
-	<div>
-		<ul>
-			<li th:each="file : ${files}">
-				<a th:href="${file}" th:text="${file}" />
-			</li>
-		</ul>
-	</div>
-
+	          <!-- Upload Finished -->
+	          <div class="js-upload-finished">
+	            <h3>Imágenes subidas</h3>
+	            <div class="list-group">
+	              <a th:each="file : ${files}" th:href="${file}" class="list-group-item list-group-item-success" th:text="${file}"><span class="badge alert-success pull-right">Éxito</span></a>	            
+	            </div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
 </body>
 </html>
