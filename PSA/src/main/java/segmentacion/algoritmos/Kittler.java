@@ -1,7 +1,6 @@
 package segmentacion.algoritmos;
 
-import org.opencv.core.Mat;
-
+import segmentacion.Histograma;
 import segmentacion.conf.Const;
 
 /**
@@ -14,7 +13,7 @@ import segmentacion.conf.Const;
  */
 public class Kittler {
 	
-	private Mat img;
+	private Histograma hist;
 	
 	// Tao inicializado en 0
 	private int tao = 0;	
@@ -24,41 +23,14 @@ public class Kittler {
 	
 	/**
 	 * Constructor
+	 * 
+	 * @param histo	histograma de la matriz de imagen
 	 */
-	public Kittler() {
-		
+	public Kittler(Histograma histo) {				
+		this.hist = histo;
 	}
 	
-	/**
-	 * Sobrecarga del constructor
-	 * 
-	 * @param img	imagen para aplicar Algoritmo de Kittler
-	 */
-	public Kittler(Mat img) {				
-		this.img = img;
-	}
-	
-	/**
-	 * calcula histograma de la imagen 
-	 * 
-	 * @return	histograma de escala de grises
-	 */
-	public int[] obtenerHistograma() {	
-		int[] res = new int[256];
-		
-		for (int y = 0; y < this.img.height(); y++) {
-			for (int x = 0; x < this.img.width(); x++) {
-				
-				// Leer un "pixel" de la matriz
-				double[] datosPixel = this.img.get(y, x);
-				int escalaGris = (int)datosPixel[0];
-				
-				// Incrementar el valor de gris en el histograma
-				res[escalaGris]++;
-			}
-		}		
-		return res;
-	}	
+	public Kittler() { }
 		
 	/**
 	 * Cálculo de P_i para obtener J(T) y buscar el mejor Tao
@@ -71,13 +43,12 @@ public class Kittler {
 	 * 
 	 * @param a		límite inferior de rango a evaluar
 	 * @param b		límite superior de rango a evaluar
-	 * @param histo	histograma con niveles de grises
 	 * @return		el valor de P_i
 	 */
-	private int calcularP(int a, int b, int[] histo){
+	private int calcularP(int a, int b) {
 		int res = 0;
 		for (int i = a; i < b; i++) {
-			res += histo[i];
+			res += hist.getHistograma()[i];
 		}
 		return res;
 	}
@@ -94,13 +65,12 @@ public class Kittler {
 	 * @param a		límite inferior de rango a evaluar
 	 * @param b		límite superior de rango a evaluar
 	 * @param Px	valor de P calculado previamente	
-	 * @param histo	histograma con niveles de grises
 	 * @return		el valor de u_i
 	 */
-	private double calcularMiu(int a, int b, int Px, int[] histo){
+	private double calcularMiu(int a, int b, int Px){
 		double res = 0;
 		for (int i = a; i < b; i++) {
-			res += (double)(i * histo[i]);
+			res += (double)(i * hist.getHistograma()[i]);
 		}		
 		return res / (double)Px;
 	}
@@ -118,13 +88,12 @@ public class Kittler {
 	 * @param b		límite superior de rango a evaluar
 	 * @param Px	valor de P calculado previamente
 	 * @param Ux	valor de Miu calculado previamente
-	 * @param histo	histograma con niveles de grises
 	 * @return		el valor de la varianza_i
 	 */
-	private double calcularVar(int a, int b, int Px, double Ux, int[] histo) {
+	private double calcularVar(int a, int b, int Px, double Ux) {
 		double res = 0;
 		for(int i = a; i < b; i++) {
-			res += ((double)i - Ux) * ((double)i - Ux) * (double)histo[i];
+			res += ((double)i - Ux) * ((double)i - Ux) * (double)hist.getHistograma()[i];
 		}
 		return res / (double)Px;
 	}
@@ -156,21 +125,19 @@ public class Kittler {
 	 * @return	el mejor Tao para hacer la umbralización binaria de la imagen
 	 */
 	public int calcularUmbral() {
-		
-		int[] histo = this.obtenerHistograma();
-		
+					
 		double min = Double.MAX_VALUE;
 		
 		for (int t = 0; t < Const.LIMITE; t++){
 			
-			int p1 = this.calcularP(0, t, histo);
-			int p2 = this.calcularP(t + 1, Const.LIMITE, histo);
+			int p1 = this.calcularP(0, t);
+			int p2 = this.calcularP(t + 1, Const.LIMITE);
 			
-			double u1 = this.calcularMiu(0, t, p1, histo);
-			double u2 = this.calcularMiu(t + 1, Const.LIMITE, p2, histo);
+			double u1 = this.calcularMiu(0, t, p1);
+			double u2 = this.calcularMiu(t + 1, Const.LIMITE, p2);
 			
-			double var1 = this.calcularVar(0, t, p1, u1, histo);
-			double var2 = this.calcularVar(t + 1, Const.LIMITE, p2, u2, histo);
+			double var1 = this.calcularVar(0, t, p1, u1);
+			double var2 = this.calcularVar(t + 1, Const.LIMITE, p2, u2);
 			
 			double j = this.calcularJ(p1, p2, var1, var2);
 			
@@ -193,6 +160,15 @@ public class Kittler {
 	 *******************/
 	
 	/**
+	 * Setter para el histograma
+	 * 
+	 * @param histo	histograma de una matriz de imagen
+	 */
+	public void setHistograma(Histograma histo) {
+		this.hist = histo;
+	}
+	
+	/**
 	 * Getter para valor t
 	 * 
 	 * @return	 umbral t (tao)
@@ -201,21 +177,4 @@ public class Kittler {
 		return this.tao;
 	}
 	
-	/**
-	 * Getter para imagen img
-	 * 
-	 * @return	matriz de la imagen
-	 */
-	public Mat getImagen() {
-		return this.img;
-	}
-	
-	/**
-	 * Setter para imagen img
-	 * @param imagen	Mat de OpenCV a setear
-	 */
-	public void setImagen(Mat imagen) {
-		this.img = imagen;
-	}
-
 }

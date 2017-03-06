@@ -2,6 +2,7 @@ package segmentacion.imagenes;
 
 import org.opencv.core.Mat;
 
+import segmentacion.Histograma;
 import segmentacion.algoritmos.Etiquetado;
 import segmentacion.algoritmos.Kittler;
 import segmentacion.algoritmos.Umbralizacion;
@@ -43,9 +44,9 @@ public class ImageProcessor {
 	 * @param nombreImg	nombre de la imagen guardada en disco
 	 */
 	public void procesarImagen(String nombreImg) {	
-		Mat imagen = ih.leerImagenGrises(Const.IMG_DIR + nombreImg);		
-		k.setImagen(imagen);
-		imagen = k.getImagen();
+		Mat imagen = ih.leerImagenGrises(Const.IMG_DIR + nombreImg);
+		Histograma hist = new Histograma(imagen, Const.LIMITE);
+		k.setHistograma(hist);		
 		k.calcularUmbral();
 		umb.aplicarUmbral(imagen, k.getTao());
 		imagen = etq.etiquetarCelulas(imagen);
