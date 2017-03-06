@@ -2,7 +2,7 @@
 <head>
 
   <title>Subir imágenes</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"></meta>
   <link rel="stylesheet" type="text/css" href="css/upload.css"></link>
   
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"></link>
@@ -17,7 +17,7 @@
 	        <div class="panel-body">
 
 	          <!-- Standar Form -->
-	          <h4>Seleccione un archivo de su ordenador</h4>
+	          <h4>Seleccione un archivo</h4>
 	          <form method="post" enctype="multipart/form-data" id="js-upload-form" action="/">
 	            <div class="form-inline">
 	              <div class="form-group">
@@ -29,7 +29,7 @@
 
 	          <!-- Upload Finished -->
 	          <div class="js-upload-finished">
-	            <h3>Imágenes subidas</h3>
+	            <h4>Imágenes subidas y procesadas</h4>
 	            <div class="list-group">
 	              <a th:each="file : ${files}" th:href="${file}" class="list-group-item list-group-item-success" th:text="${file}"><span class="badge alert-success pull-right">Éxito</span></a>	            
 	            </div>
