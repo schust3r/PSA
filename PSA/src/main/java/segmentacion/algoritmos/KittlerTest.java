@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.opencv.core.Mat;
 
+import segmentacion.Histograma;
+import segmentacion.conf.Const;
 import segmentacion.imagenes.ImageHandler;
 
 public class KittlerTest {
@@ -16,8 +18,8 @@ public class KittlerTest {
 		ImageHandler ih = new ImageHandler();
 		Mat img = ih.leerImagenGrises("C:/Users/Joel/Dropbox/I Semestre 2017/Aseguramiento de la Calidad del Software/Proyectos/Prueba unitaria/cuadro1_005.bmp");
 		
-		Kittler test = new Kittler();
-		test.setImagen(img);
+		Histograma hist = new Histograma(img, Const.LIMITE);		
+		Kittler test = new Kittler(hist);		
 		
 		test.calcularUmbral();
 				
